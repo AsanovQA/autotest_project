@@ -5,8 +5,6 @@ load_dotenv()
 
 
 class ApiData:
-    auth_body = {'Authorization': f'Bearer {os.getenv('TOKEN')}'}
-    fail_auth_body = {'Authorization': f'Bearer {os.getenv('FAIL_TOKEN')}'}
     login_body = {"email": os.getenv('USERNAME'), "password": os.getenv('PASSWORD')}
     fail_login_body = {"email": os.getenv('FAIL_USERNAME'), "password": os.getenv('FAIL_PASSWORD')}
 

@@ -27,7 +27,7 @@ def get_auth_token():
 
 
 def save_token(response: str):
-    with open('../.env', 'r') as env_file:
+    with open('../../.env', 'r') as env_file:
         lines = env_file.readlines()
 
     token_found = False
@@ -42,7 +42,7 @@ def save_token(response: str):
         lines = [line for line in lines if not line.startswith('TOKEN=')]
         lines.append(f'TOKEN={dict(eval(response)).get('token')}')
 
-    with open('../.env', 'w') as env_file:
+    with open('../../.env', 'w') as env_file:
         env_file.writelines(lines)
 
 
