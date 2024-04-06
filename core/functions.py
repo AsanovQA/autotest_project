@@ -1,5 +1,7 @@
 import json
 import os
+import requests
+from data.apidata import ApiData
 
 null = None
 
@@ -24,4 +26,28 @@ def get_auth_token():
         return lo.get('token')
 
 
-print(get_auth_token())
+def save_token(response: str):
+    with open('../../.env', 'r') as env_file:
+        lines = env_file.readlines()
+
+    token_found = False
+    for i, line in enumerate(lines):
+        if line.startswith('\nTOKEN='):
+            current_token = line.strip().split('=')[1]
+            if current_token == {dict(eval(response)).get('token')}:
+                token_found = True
+                break
+
+    if not token_found:
+        lines = [line for line in lines if not line.startswith('TOKEN=')]
+        lines.append(f'TOKEN={dict(eval(response)).get('token')}')
+
+    with open('../../.env', 'w') as env_file:
+        env_file.writelines(lines)
+
+
+def new_login():
+    re = requests.post(os.getenv('BASE_URL') + 'login',
+                       json=ApiData.login_body)
+    if re.status_code == 200:
+        save_token(re.text)
